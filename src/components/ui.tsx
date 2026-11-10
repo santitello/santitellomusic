@@ -16,6 +16,9 @@ const PATHS: Record<string, string> = {
   arrow: "M5 12h14m0 0-6-6m6 6-6 6",
   arrowDown: "M12 5v14m0 0 6-6m-6 6-6-6",
   chevron: "m6 9 6 6 6-6",
+  check: "m5 12.5 4.5 4.5L19 7",
+  soundOn: "M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Zm11.5-1a5 5 0 0 1 0 7m2.5-10a9 9 0 0 1 0 13",
+  soundOff: "M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Zm12 .5 5 5m0-5-5 5",
   play: "M8 5.5v13l11-6.5-11-6.5Z",
   quote: "M7 17c-2 0-3-1.5-3-3.5C4 10 6.5 7.5 9 7l.5 1.5C8 9.3 7.2 10.4 7 12c1.7 0 3 1.1 3 2.7S8.8 17 7 17Zm9 0c-2 0-3-1.5-3-3.5 0-3.5 2.5-6 5-6.5l.5 1.5c-1.5.8-2.3 1.9-2.5 3.5 1.7 0 3 1.1 3 2.7S17.8 17 16 17Z",
   instagram: "M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Zm5 13.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM17.5 6.5h.01",
@@ -67,12 +70,14 @@ export function Section({
   id,
   eyebrow,
   title,
+  lead,
   children,
   className = "",
 }: {
   id?: string;
   eyebrow?: string;
   title?: string;
+  lead?: string;
   children: ReactNode;
   className?: string;
 }) {
@@ -82,9 +87,10 @@ export function Section({
         {(eyebrow || title) && (
           <Reveal className="mb-12 max-w-2xl sm:mb-16">
             {eyebrow && (
-              <p className="mb-3 text-[12.5px] font-semibold tracking-[0.2em] text-amber uppercase">{eyebrow}</p>
+              <p className="mb-3 text-[12.5px] font-semibold tracking-[0.2em] text-accent uppercase">{eyebrow}</p>
             )}
             {title && <h2 className="text-[clamp(2rem,5.5vw,3.4rem)] leading-[1.02] font-bold">{title}</h2>}
+            {lead && <p className="mt-4 text-[17px] leading-relaxed text-muted">{lead}</p>}
           </Reveal>
         )}
         {children}
@@ -101,7 +107,7 @@ export function WaButton({ long = false, className = "" }: { long?: boolean; cla
       href={whatsappUrl(lang)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-stage px-7 text-[16px] font-semibold text-ink shadow-[0_12px_40px_-12px_rgb(255_90_95/0.7)] transition-transform hover:scale-[1.03] active:scale-[0.98] ${className}`}
+      className={`group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-stage px-7 text-[16px] font-semibold text-on-stage shadow-[0_12px_40px_-12px_rgb(255_90_95/0.7)] transition-transform hover:scale-[1.03] active:scale-[0.98] ${className}`}
     >
       <Icon name="whatsapp" className="size-5" />
       {t(long ? COPY.cta.whatsappLong : COPY.cta.whatsapp)}

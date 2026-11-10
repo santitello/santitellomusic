@@ -18,6 +18,29 @@
   --color-coral: #ff5a5f;
   --color-violet: #7c5cff;
   --color-wa: #25d366;
+
+  /* Tokens que cambian con el tema (ver [data-theme="light"] abajo). */
+  --color-accent: #f5a524;
+  --color-on-stage: #0b0b0f;
+  --color-stage-from: #f5a524;
+  --color-stage-to: #ff5a5f;
+}
+
+/*
+ * Tema claro: crema cálida en vez de carbón. El degradado se oscurece un poco y
+ * el acento de texto pasa a ámbar quemado, porque el ámbar puro sobre crema no
+ * se lee. Se elige en SITE.theme (src/content.ts).
+ */
+[data-theme="light"] {
+  --color-ink: #faf6f0;
+  --color-surface: #ffffff;
+  --color-line: rgb(28 22 18 / 0.1);
+  --color-fg: #1a1512;
+  --color-muted: #6b6259;
+  --color-accent: #b45309;
+  --color-on-stage: #1a1512;
+  --color-stage-from: #e27a06;
+  --color-stage-to: #ef4a4f;
 }
 
 @layer base {
@@ -26,6 +49,7 @@
     background: var(--color-ink);
     color-scheme: dark;
   }
+  html[data-theme="light"] { color-scheme: light; }
   body {
     margin: 0;
     background: var(--color-ink);
@@ -46,13 +70,13 @@
 
 @layer utilities {
   .text-stage {
-    background-image: linear-gradient(100deg, var(--color-amber), var(--color-coral));
+    background-image: linear-gradient(100deg, var(--color-stage-from), var(--color-stage-to));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .bg-stage {
-    background-image: linear-gradient(100deg, var(--color-amber), var(--color-coral));
+    background-image: linear-gradient(100deg, var(--color-stage-from), var(--color-stage-to));
   }
 }
 

@@ -7,8 +7,9 @@ import { whatsappUrl } from "@/lib/whatsapp";
 import { Icon } from "./ui";
 
 const NAV = [
+  { href: "#formatos", label: COPY.nav.formats },
+  ...(SITE.photos.length || SITE.videos.length ? [{ href: "#galeria", label: COPY.nav.gallery }] : []),
   { href: "#eventos", label: COPY.nav.events },
-  { href: "#show", label: COPY.nav.show },
   { href: "#reservar", label: COPY.nav.how },
   { href: "#preguntas", label: COPY.nav.faq },
 ];
@@ -16,7 +17,7 @@ const NAV = [
 function LangToggle() {
   const { lang, setLang } = useLang();
   return (
-    <div className="flex rounded-full bg-white/[0.06] p-0.5 ring-1 ring-line" role="group" aria-label="Idioma / Language">
+    <div className="flex rounded-full bg-fg/[0.06] p-0.5 ring-1 ring-line" role="group" aria-label="Idioma / Language">
       {(["es", "en"] as Lang[]).map((l) => (
         <button
           key={l}
@@ -57,7 +58,7 @@ export function Header() {
           <span className="text-stage">.</span>
         </a>
 
-        <div className="ml-auto hidden items-center gap-6 md:flex">
+        <div className="ml-auto hidden items-center gap-6 lg:flex">
           {NAV.map((n) => (
             <a key={n.href} href={n.href} className="text-[14.5px] text-muted transition-colors hover:text-fg">
               {t(n.label)}
@@ -65,7 +66,7 @@ export function Header() {
           ))}
         </div>
 
-        <div className="ml-auto flex items-center gap-2.5 md:ml-6">
+        <div className="ml-auto flex items-center gap-2.5 lg:ml-6">
           <LangToggle />
           <a
             href={whatsappUrl(lang)}
@@ -115,7 +116,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={SOCIAL_LABEL[key]}
-                className="grid size-11 place-items-center rounded-full ring-1 ring-line transition-colors hover:bg-white/[0.06] hover:text-amber"
+                className="grid size-11 place-items-center rounded-full ring-1 ring-line transition-colors hover:bg-fg/[0.06] hover:text-accent"
               >
                 <Icon name={key} className="size-5" />
               </a>

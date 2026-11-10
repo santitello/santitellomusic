@@ -13,7 +13,7 @@ export const SITE = {
   /** Nombre artístico tal como debe verse. */
   name: "Santi Tello",
   /** WhatsApp con código de país, solo dígitos (ej. "593991234567"). El build falla si está vacío. */
-  whatsapp: "",
+  whatsapp: "593995402162",
   /** Redes: se muestran solo las que tengan enlace. */
   social: {
     instagram: "",
@@ -21,19 +21,95 @@ export const SITE = {
     youtube: "",
     facebook: "",
   },
+  /** Fondo de la página: "dark" (carbón) o "light" (crema). */
+  theme: "dark" as "dark" | "light",
   /** Dónde tocas. Aparece en el hero y en el pie. */
   area: { es: "Ecuador", en: "Ecuador" } satisfies T,
 
   /**
-   * Fotos de shows (en /public/media). La primera también es la del hero.
-   * Ej.: { src: "/media/show-1.webp", alt: { es: "Santi en vivo en una boda", en: "Santi live at a wedding" } }
+   * Fotos de shows (en /public/media). Van en la pestaña "Fotos" de la galería.
+   * Ej.: { src: "/media/foto-1.webp", alt: { es: "Santi en vivo en una boda", en: "Santi live at a wedding" } }
    */
   photos: [] as { src: string; alt: T }[],
-  /** Video corto del show (mp4 en /public/media o enlace de YouTube). Vacío = sección oculta. */
-  video: "",
+  /**
+   * Videos (mp4 en /public/media o enlace de YouTube). Los DOS PRIMEROS salen en
+   * la portada como muestra; todos van en la pestaña "Videos" de la galería.
+   * `poster` es la imagen que se ve mientras carga (opcional).
+   * Ej.: { src: "/media/boda.mp4", poster: "/media/boda.jpg", title: { es: "Boda en Quito", en: "Wedding in Quito" } }
+   */
+  videos: [] as { src: string; poster?: string; title: T }[],
   /** Testimonios reales de clientes. Vacío = sección oculta. */
   testimonials: [] as { name: string; event: T; text: T }[],
 };
+
+const REPERTOIRE: T = {
+  es: "Música variada a elección del cliente: baladas, boleros, pasillos, cumbia, merengue, salsa, rock latinoamericano, música actual, etc.",
+  en: "Varied music of your choice: ballads, boleros, pasillos, cumbia, merengue, salsa, Latin American rock, current hits and more.",
+};
+
+/**
+ * Formatos del show, con su precio en dólares. `price: null` = se cotiza aparte
+ * (se muestra `priceNote`). `photo` va en /public/media; vacío = imagen de relleno.
+ * `lineup` son quienes suben al escenario; lo común a todos va en COPY.formats.common.
+ */
+export const FORMATS: {
+  title: T;
+  lineup: T[];
+  repertoire: T;
+  price: number | null;
+  priceNote?: T;
+  photo: string;
+}[] = [
+  {
+    title: { es: "Voz y secuencias", en: "Vocals & backing tracks" },
+    lineup: [{ es: "Show Santiago Tello + Secuencias", en: "Santiago Tello show + backing tracks" }],
+    repertoire: REPERTOIRE,
+    price: 180,
+    photo: "",
+  },
+  {
+    title: { es: "Con guitarrista", en: "With guitarist" },
+    lineup: [
+      { es: "Show Santiago Tello + Secuencias", en: "Santiago Tello show + backing tracks" },
+      { es: "Guitarrista profesional", en: "Professional guitarist" },
+    ],
+    repertoire: REPERTOIRE,
+    price: 250,
+    photo: "",
+  },
+  {
+    title: { es: "Con pianista", en: "With pianist" },
+    lineup: [
+      { es: "Show Santiago Tello", en: "Santiago Tello show" },
+      { es: "Pianista profesional", en: "Professional pianist" },
+    ],
+    repertoire: {
+      es: "Música variada a elección del cliente: baladas, boleros, pasillos, música actual, música del recuerdo, etc.",
+      en: "Varied music of your choice: ballads, boleros, pasillos, current hits, golden oldies and more.",
+    },
+    price: 250,
+    photo: "",
+  },
+  {
+    title: { es: "Con guitarrista y percusionista", en: "With guitarist & percussionist" },
+    lineup: [
+      { es: "Show Santiago Tello + Secuencias", en: "Santiago Tello show + backing tracks" },
+      { es: "Guitarrista profesional", en: "Professional guitarist" },
+      { es: "Percusionista profesional", en: "Professional percussionist" },
+    ],
+    repertoire: REPERTOIRE,
+    price: 300,
+    photo: "",
+  },
+  {
+    title: { es: "Orquesta completa", en: "Full band" },
+    lineup: [{ es: "Show Santiago Tello + Orquesta completa", en: "Santiago Tello show + full band" }],
+    repertoire: REPERTOIRE,
+    price: null,
+    priceNote: { es: "Según la cantidad de músicos", en: "Depends on the number of musicians" },
+    photo: "",
+  },
+];
 
 export const COPY = {
   meta: {
@@ -48,14 +124,15 @@ export const COPY = {
   },
   nav: {
     events: { es: "Eventos", en: "Events" },
-    show: { es: "El show", en: "The show" },
+    formats: { es: "Formatos", en: "Packages" },
+    gallery: { es: "Galería", en: "Gallery" },
     how: { es: "Cómo reservar", en: "How to book" },
     faq: { es: "Preguntas", en: "FAQ" },
   },
   cta: {
     whatsapp: { es: "Cotiza tu evento", en: "Get a quote" },
     whatsappLong: { es: "Cotiza tu evento por WhatsApp", en: "Get a quote on WhatsApp" },
-    secondary: { es: "Conoce el show", en: "See the show" },
+    secondary: { es: "Ver formatos y precios", en: "See packages & prices" },
     message: {
       es: "Hola Santi 👋 Quiero cotizar música en vivo para mi evento.\nFecha: \nCiudad: \nTipo de evento: ",
       en: "Hi Santi 👋 I'd like a quote for live music at my event.\nDate: \nCity: \nType of event: ",
@@ -125,6 +202,29 @@ export const COPY = {
       },
     ],
   },
+  formats: {
+    eyebrow: { es: "Formatos", en: "Packages" },
+    title: { es: "Elige el formato de tu show", en: "Choose your show format" },
+    lead: {
+      es: "Todos incluyen técnico de sonido, equipos completos y transporte. La música la eliges tú.",
+      en: "Every package includes a sound engineer, full sound gear and transportation. You choose the music.",
+    },
+    label: { es: "Formato", en: "Package" },
+    common: {
+      tech: { es: "Técnico de sonido", en: "Sound engineer" },
+      length: { es: "Show de 1 hora y media", en: "1.5-hour show" },
+      gear: {
+        es: "Todos los equipos de amplificación y sonido necesarios para el show: cajas amplificadoras, micrófonos, consola digital, pedestales, etc.",
+        en: "All the sound and amplification gear the show needs: speakers, microphones, digital mixer, stands and more.",
+      },
+      transport: { es: "Transporte", en: "Transportation" },
+    },
+    cta: { es: "Quiero este formato", en: "Book this package" },
+    message: {
+      es: "Hola Santi 👋 Me interesa el Formato {n} ({title}).\nFecha: \nCiudad: \nTipo de evento: ",
+      en: "Hi Santi 👋 I'm interested in Package {n} ({title}).\nDate: \nCity: \nType of event: ",
+    },
+  },
   show: {
     eyebrow: { es: "El show", en: "The show" },
     title: { es: "Un show que acompaña cada momento", en: "A show for every moment of the night" },
@@ -148,8 +248,16 @@ export const COPY = {
         body: { es: "Los éxitos que todos cantan y bailan, hasta el final.", en: "The hits everyone sings and dances to, all night long." },
       },
     ],
-    videoTitle: { es: "Míralo en vivo", en: "See it live" },
-    galleryTitle: { es: "En el escenario", en: "On stage" },
+  },
+  media: {
+    eyebrow: { es: "Galería", en: "Gallery" },
+    title: { es: "Míralo en vivo", en: "See it live" },
+    photos: { es: "Fotos", en: "Photos" },
+    videos: { es: "Videos", en: "Videos" },
+    heroLabel: { es: "Una muestra del show", en: "A taste of the show" },
+    soundOn: { es: "Activar sonido", en: "Turn sound on" },
+    soundOff: { es: "Silenciar", en: "Mute" },
+    close: { es: "Cerrar", en: "Close" },
   },
   how: {
     eyebrow: { es: "Cómo reservar", en: "How to book" },
@@ -180,8 +288,8 @@ export const COPY = {
       {
         q: { es: "¿Cuánto cuesta el show?", en: "How much does the show cost?" },
         a: {
-          es: "Depende de la fecha, la ciudad, la duración y el formato. Escríbeme por WhatsApp con esos datos y te envío una cotización sin compromiso.",
-          en: "It depends on the date, city, length and format. Message me on WhatsApp with those details and I'll send you a no-obligation quote.",
+          es: "Cada formato tiene su precio en la sección Formatos e incluye todo lo que aparece en su lista. El formato con orquesta completa se cotiza según la cantidad de músicos. Escríbeme por WhatsApp con la fecha y la ciudad para confirmar disponibilidad.",
+          en: "Each package shows its price in the Packages section and includes everything on its list. The full-band package is quoted by the number of musicians. Message me on WhatsApp with the date and city to check availability.",
         },
       },
       {

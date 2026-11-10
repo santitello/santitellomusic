@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { COPY, SITE } from "@/content";
+import { COPY, FORMATS, SITE } from "@/content";
 import { useLang } from "@/lib/lang";
+import { whatsappUrl } from "@/lib/whatsapp";
+import { HeroVideos } from "./Media";
 import { Icon, Reveal, Section, WaButton } from "./ui";
 
 /** Alturas y ritmos fijos (no aleatorios): el ecualizador se ve igual en cada carga. */
@@ -9,7 +11,7 @@ const BARS = [0.5, 0.9, 0.65, 1, 0.75, 0.55, 0.95, 0.7, 0.85, 0.6, 1, 0.8, 0.5, 
 
 export function Hero() {
   const { t } = useLang();
-  const photo = SITE.photos[0];
+  const hasVideos = SITE.videos.length > 0;
 
   return (
     <section id="top" className="relative isolate flex min-h-[100svh] items-center overflow-hidden px-5 pt-24 pb-16 sm:px-8">
@@ -20,17 +22,14 @@ export function Hero() {
         <div className="animate-drift absolute bottom-[-30%] left-[20%] size-[55vmax] rounded-full bg-violet/14 blur-[130px]" />
       </div>
 
-      {photo && (
-        <div aria-hidden className="absolute inset-0 -z-10 lg:left-1/2">
-          <img src={photo.src} alt="" className="size-full object-cover opacity-45 lg:opacity-80" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30 lg:bg-gradient-to-r lg:from-ink lg:via-ink/40 lg:to-transparent" />
-        </div>
-      )}
-
-      <div className="mx-auto w-full max-w-6xl">
+      <div
+        className={`mx-auto grid w-full max-w-6xl items-center gap-12 ${
+          hasVideos ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,430px)] lg:gap-14" : ""
+        }`}
+      >
         <div className="max-w-3xl">
           <Reveal>
-            <p className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-white/[0.06] px-4 py-2 text-[13px] font-semibold tracking-[0.18em] text-fg uppercase ring-1 ring-line">
+            <p className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-fg/[0.06] px-4 py-2 text-[13px] font-semibold tracking-[0.18em] text-fg uppercase ring-1 ring-line">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-coral opacity-70" />
                 <span className="relative inline-flex size-2 rounded-full bg-coral" />
@@ -40,7 +39,11 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.05}>
-            <h1 className="text-[clamp(2.8rem,9vw,6.2rem)] leading-[0.95] font-extrabold">
+            <h1
+              className={`leading-[0.95] font-extrabold ${
+                hasVideos ? "text-[clamp(2.8rem,8.5vw,5.3rem)]" : "text-[clamp(2.8rem,9vw,6.2rem)]"
+              }`}
+            >
               {t(COPY.hero.title1)}
               <br />
               <span className="text-stage">{t(COPY.hero.title2)}</span>
@@ -54,14 +57,15 @@ export function Hero() {
           <Reveal delay={0.15} className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <WaButton long className="w-full sm:w-auto" />
             <a
-              href="#show"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-full px-6 text-[15.5px] font-semibold text-fg ring-1 ring-line transition-colors hover:bg-white/[0.06]"
+              href="#formatos"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-full px-6 text-[15.5px] font-semibold text-fg ring-1 ring-line transition-colors hover:bg-fg/[0.06]"
             >
               {t(COPY.cta.secondary)}
               <Icon name="arrowDown" className="size-4" />
             </a>
           </Reveal>
 
+          {!hasVideos && (
           <Reveal delay={0.2}>
             <div aria-hidden className="mt-14 flex h-12 items-end gap-1.5">
               {BARS.map((h, i) => (
@@ -79,7 +83,9 @@ export function Hero() {
               ))}
             </div>
           </Reveal>
+          )}
         </div>
+        <HeroVideos />
       </div>
     </section>
   );
@@ -92,7 +98,7 @@ export function Promises() {
       <div className="mx-auto grid w-full max-w-6xl gap-6 sm:grid-cols-3">
         {COPY.promises.map((p, i) => (
           <Reveal key={i} delay={i * 0.06} className="flex items-start gap-4">
-            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/[0.05] text-amber ring-1 ring-line">
+            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-fg/[0.05] text-accent ring-1 ring-line">
               <Icon name={p.icon} className="size-5" />
             </span>
             <div>
@@ -114,12 +120,12 @@ export function Events() {
       <div className="grid gap-4 sm:grid-cols-2">
         {e.items.map((item, i) => (
           <Reveal key={i} delay={i * 0.06}>
-            <article className="group relative h-full overflow-hidden rounded-3xl bg-surface p-7 ring-1 ring-line transition-colors hover:ring-amber/40 sm:p-8">
+            <article className="group relative h-full overflow-hidden rounded-3xl bg-surface p-7 ring-1 ring-line transition-colors hover:ring-accent/40 sm:p-8">
               <div
                 aria-hidden
                 className="absolute -top-20 -right-20 size-56 rounded-full bg-coral/15 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
               />
-              <span className="relative mb-6 grid size-12 place-items-center rounded-2xl bg-stage text-ink">
+              <span className="relative mb-6 grid size-12 place-items-center rounded-2xl bg-stage text-on-stage">
                 <Icon name={item.icon} className="size-6" />
               </span>
               <h3 className="relative text-[24px] font-bold">{t(item.title)}</h3>
@@ -132,52 +138,96 @@ export function Events() {
   );
 }
 
-function VideoBlock() {
-  const { t } = useLang();
-  const src = SITE.video;
-  if (!src) return null;
-  const yt = src.match(/(?:youtu\.be\/|v=|shorts\/)([\w-]{11})/)?.[1];
-
+/** Foto del formato o, mientras no haya, su número grande sobre luces de escenario. */
+function FormatPhoto({ src, alt, n, className = "" }: { src: string; alt: string; n: number; className?: string }) {
+  if (src) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        className={`aspect-[4/3] size-full object-cover lg:aspect-auto lg:min-h-[420px] ${className}`}
+      />
+    );
+  }
   return (
-    <Reveal className="mt-16">
-      <h3 className="mb-5 text-[22px] font-bold">{t(COPY.show.videoTitle)}</h3>
-      <div className="aspect-video overflow-hidden rounded-3xl bg-surface ring-1 ring-line">
-        {yt ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${yt}`}
-            title={t(COPY.show.videoTitle)}
-            loading="lazy"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="size-full"
-          />
-        ) : (
-          <video src={src} controls playsInline preload="metadata" className="size-full object-cover" />
-        )}
-      </div>
-    </Reveal>
+    <div aria-hidden className={`relative isolate grid min-h-[200px] place-items-center overflow-hidden bg-ink/50 lg:min-h-[420px] ${className}`}>
+      <div className="animate-drift absolute -top-1/3 -left-1/4 -z-10 size-[28rem] rounded-full bg-amber/20 blur-[90px]" />
+      <div className="animate-drift-slow absolute -right-1/4 -bottom-1/3 -z-10 size-[24rem] rounded-full bg-coral/20 blur-[90px]" />
+      <span className="font-display text-[clamp(6rem,16vw,11rem)] leading-none font-extrabold text-stage opacity-90">
+        {String(n).padStart(2, "0")}
+      </span>
+    </div>
   );
 }
 
-function Gallery() {
-  const { t } = useLang();
-  if (!SITE.photos.length) return null;
+function Included({ children, strong = false }: { children: React.ReactNode; strong?: boolean }) {
   return (
-    <Reveal className="mt-16">
-      <h3 className="mb-5 text-[22px] font-bold">{t(COPY.show.galleryTitle)}</h3>
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        {SITE.photos.map((p) => (
-          <img
-            key={p.src}
-            src={p.src}
-            alt={t(p.alt)}
-            loading="lazy"
-            decoding="async"
-            className="aspect-[4/5] w-full rounded-2xl object-cover ring-1 ring-line"
-          />
-        ))}
+    <li className="flex gap-3">
+      <Icon name="check" className="mt-0.5 size-5 shrink-0 text-accent" />
+      <span className={strong ? "text-[16.5px] font-semibold text-fg" : "text-[15px] leading-relaxed text-muted"}>{children}</span>
+    </li>
+  );
+}
+
+/** Formatos con su precio: cada bloque lleva a WhatsApp con el formato ya nombrado en el mensaje. */
+export function Formats() {
+  const { lang, t } = useLang();
+  const f = COPY.formats;
+  return (
+    <Section id="formatos" eyebrow={t(f.eyebrow)} title={t(f.title)} lead={t(f.lead)}>
+      <div className="space-y-6">
+        {FORMATS.map((fm, i) => {
+          const n = i + 1;
+          const message = t(f.message).replace("{n}", String(n)).replace("{title}", t(fm.title));
+          return (
+            <Reveal key={n}>
+              <article className="grid overflow-hidden rounded-[2rem] bg-surface ring-1 ring-line lg:grid-cols-2">
+                <FormatPhoto src={fm.photo} alt={t(fm.title)} n={n} className={i % 2 ? "lg:order-last" : ""} />
+                <div className="flex flex-col p-7 sm:p-10">
+                  <p className="text-[12.5px] font-semibold tracking-[0.2em] text-accent uppercase">
+                    {t(f.label)} {n}
+                  </p>
+                  <h3 className="mt-2 text-[clamp(1.7rem,3.4vw,2.4rem)] leading-[1.05] font-bold">{t(fm.title)}</h3>
+                  <ul className="mt-6 space-y-3">
+                    {fm.lineup.map((l, j) => (
+                      <Included key={j} strong>
+                        {t(l)}
+                      </Included>
+                    ))}
+                    <Included>{t(f.common.tech)}</Included>
+                    <Included>{t(f.common.length)}</Included>
+                    <Included>{t(fm.repertoire)}</Included>
+                    <Included>{t(f.common.gear)}</Included>
+                    <Included>{t(f.common.transport)}</Included>
+                  </ul>
+                  <div className="mt-8 flex flex-col gap-5 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
+                    {fm.price != null ? (
+                      <p className="font-display text-[46px] leading-none font-extrabold">
+                        <span className="text-stage">${fm.price}</span>
+                      </p>
+                    ) : (
+                      <p className="max-w-[15rem] text-[18px] leading-snug font-bold">{fm.priceNote && t(fm.priceNote)}</p>
+                    )}
+                    <a
+                      href={whatsappUrl(lang, message)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-fg px-6 text-[15px] font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-[0.98]"
+                    >
+                      <Icon name="whatsapp" className="size-[18px]" />
+                      {t(f.cta)}
+                      <Icon name="arrow" className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          );
+        })}
       </div>
-    </Reveal>
+    </Section>
   );
 }
 
@@ -197,8 +247,6 @@ export function Show() {
           </Reveal>
         ))}
       </div>
-      <VideoBlock />
-      <Gallery />
     </Section>
   );
 }
@@ -237,7 +285,7 @@ export function Testimonials() {
         {SITE.testimonials.map((r, i) => (
           <Reveal key={i} delay={i * 0.06}>
             <figure className="h-full rounded-3xl bg-surface p-7 ring-1 ring-line">
-              <Icon name="quote" className="size-7 text-amber" />
+              <Icon name="quote" className="size-7 text-accent" />
               <blockquote className="mt-4 text-[16px] leading-relaxed">{t(r.text)}</blockquote>
               <figcaption className="mt-5 text-[14px]">
                 <strong className="font-semibold">{r.name}</strong>
@@ -268,12 +316,12 @@ export function Faq() {
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.03]"
+                  className="flex w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-fg/[0.03]"
                 >
                   <span className="flex-1 text-[17px] font-semibold">{t(item.q)}</span>
                   <Icon
                     name="chevron"
-                    className={`size-5 shrink-0 text-amber transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                    className={`size-5 shrink-0 text-accent transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                   />
                 </button>
               </h3>

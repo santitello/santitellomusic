@@ -12,11 +12,12 @@ Mensajes de commit en español, explicando por qué además del qué.
 
 | | |
 |---|---|
-| `src/content.ts` | **todo** el texto (ES/EN), WhatsApp, redes, fotos, video y testimonios |
+| `src/content.ts` | **todo** el texto (ES/EN), WhatsApp, tema claro/oscuro, formatos y precios, fotos, videos y testimonios |
+| `src/components/Media.tsx` | videos de portada y galería con pestañas Fotos / Videos |
 | `src/components/Sections.tsx` | las secciones de la página |
 | `src/components/Layout.tsx` | cabecera, pie y botón flotante de WhatsApp |
 | `src/styles/theme.css` | colores, tipografías y animaciones |
-| `public/media/` | fotos y video del show |
+| `public/media/` | fotos y videos (comprimidos: mp4 H.264, idealmente < 8 MB cada uno) |
 
 ## Reglas
 

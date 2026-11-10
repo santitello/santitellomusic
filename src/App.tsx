@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { COPY } from "@/content";
 import { useLang } from "@/lib/lang";
 import { Footer, Header, WhatsAppFab } from "@/components/Layout";
-import { Events, Faq, FinalCta, Hero, How, Promises, Show, Testimonials } from "@/components/Sections";
+import { Events, Faq, FinalCta, Formats, Hero, How, Promises, Show, Testimonials } from "@/components/Sections";
+import { MediaGallery } from "@/components/Media";
 
 export default function App() {
   const { t } = useLang();
@@ -19,6 +20,8 @@ export default function App() {
       <main>
         <Hero />
         <Promises />
+        <Formats />
+        <MediaGallery />
         <Events />
         <Show />
         <How />
