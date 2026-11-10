@@ -37,7 +37,13 @@ export const SITE = {
    * `poster` es la imagen que se ve mientras carga (opcional).
    * Ej.: { src: "/media/boda.mp4", poster: "/media/boda.jpg", title: { es: "Boda en Quito", en: "Wedding in Quito" } }
    */
-  videos: [] as { src: string; poster?: string; title: T }[],
+  videos: [
+    {
+      src: "/media/principal-1.mp4",
+      poster: "/media/principal-1.jpg",
+      title: { es: "Santi Tello en vivo", en: "Santi Tello live" },
+    },
+  ] as { src: string; poster?: string; title: T }[],
   /** Testimonios reales de clientes. Vacío = sección oculta. */
   testimonials: [] as { name: string; event: T; text: T }[],
 };
