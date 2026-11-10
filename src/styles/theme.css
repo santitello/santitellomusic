@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/*
+ * Sobrio y moderno con la energía de la fiesta: base carbón (profesional) y un
+ * acento cálido ámbar → coral, como luces de escenario. El violeta solo aparece
+ * en los halos de fondo, nunca en texto ni botones.
+ */
+@theme {
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+
+  --color-ink: #0b0b0f;
+  --color-surface: #15151c;
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-fg: #f5f2ec;
+  --color-muted: #aaa5b4;
+  --color-amber: #f5a524;
+  --color-coral: #ff5a5f;
+  --color-violet: #7c5cff;
+  --color-wa: #25d366;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-ink);
+    color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    background: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  [id] { scroll-margin-top: 5rem; }
+  ::selection { background: rgb(245 165 36 / 0.35); }
+}
+
+@layer utilities {
+  .text-stage {
+    background-image: linear-gradient(100deg, var(--color-amber), var(--color-coral));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-stage {
+    background-image: linear-gradient(100deg, var(--color-amber), var(--color-coral));
+  }
+}
+
+/* Luces de escenario: halos que derivan despacio detrás del hero. */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4%, -3%, 0) scale(1.08); }
+}
+.animate-drift { animation: drift 14s ease-in-out infinite; }
+.animate-drift-slow { animation: drift 22s ease-in-out infinite reverse; }
+
+/* Ecualizador del hero: cada barra con su propio ritmo (--d, --h). */
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+.eq-bar {
+  transform-origin: bottom;
+  animation: eq var(--d, 1s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-drift, .animate-drift-slow, .eq-bar { animation: none; }
+  .eq-bar { transform: scaleY(0.6); }
+}
